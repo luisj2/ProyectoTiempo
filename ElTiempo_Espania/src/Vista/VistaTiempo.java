@@ -7,6 +7,9 @@ import java.util.Iterator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Controlador.ControladorTiempo;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,10 +33,10 @@ public class VistaTiempo extends JFrame {
 	public JButton btnClimaEspania;
 	public JComboBox comboDias;
 	public JLabel lblRetroalimentacion;
-	public String[] dias = { "Hoy", "Mañana", "En 2 dias", "En 3 dias" };
-	public String[] comunidadesAutonomas = { "Andalucía", "Aragón", "Asturias", "Islas Baleares", "Canarias",
+	public String[] dias = { "Hoy", "Maniana", "En 2 dias", "En 3 dias" };
+	public String[] comunidadesAutonomas = { "Espania", "Andalucia", "Aragon", "Asturias", "Islas Baleares", "Canarias",
 			"Cantabria", "Castilla y León", "Castilla-La Mancha", "Cataluña", "Extremadura", "Galicia", "Madrid",
-			"Murcia", "Navarra", "País Vasco", "La Rioja", "Comunidad Valenciana", "Ceuta", "Melilla" };
+			"Murcia", "Navarra", "Pais-Vasco", "La Rioja", "Comunidad Valenciana", "Ceuta", "Melilla" };
 
 	public JLabel lbl_Alava;
 	public JLabel lbl_Navarra;
@@ -79,6 +82,7 @@ public class VistaTiempo extends JFrame {
 	public JLabel lbl_Ceuta;
 	public JLabel lbl_Melilla;
 	public JLabel lbl_Andalucia;
+
 	public JLabel lblAlmeria;
 	public JLabel lblJaen;
 	public JLabel lblGranada;
@@ -90,10 +94,65 @@ public class VistaTiempo extends JFrame {
 	public JPanel panelAragon;
 	public JLabel lblAragon;
 	public JLabel lblHuesca;
+	public JPanel panelNavarra;
+	public JLabel lblPamplona;
+	public JLabel lblNavarra;
+	public JPanel panelGalicia;
+	public JPanel panelAndalucia;
+	public JLabel lblACorunia;
+	public JLabel lblLugo;
+	public JLabel lblOurense;
+	public JLabel lblPontevedra;
+	public JLabel lblGalicia;
+	public JPanel panelMurcia;
+	public JLabel lblMurciaa;
+	public JLabel lblMurcia;
+	public JPanel panelMadrid;
+	public JLabel lblMadridd;
+	public JLabel lblMadrid;
+	public JPanel panelLaRioja;
+	public JLabel lblZaragoza;
+	public JLabel lblTeruel;
+	public JButton btnMostrarClima;
+	public JComboBox comboProvincias;
+	public JButton btnMostrarGalicia;
+	public JButton btnVolverGalicia;
+	public JLabel
+	// La Rioja
+	lblLogronio, lblLaRioja,
+
+			// Extremadura
+			lblCaceres, lblBadajoz, lblExtremadura,
+
+			// Valencia
+			lblCastellon, lblValencia, lblAlicante, lblValenciaF,
+
+			// Catalu�a
+			lblLleida, lblTarragona, lblGirona, lblBarcelona, lblCataluna,
+
+			// Castilla y Le�n
+			lblSoria, lblBurgos, lblSegovia, lblPalencia, lblValladolid, lblAvila, lblLeon, lblZamora, lblSalamanca,
+			lblCyL,
+
+			// Castilla-La Mancha
+			lblToledo, lblGuadalajara, lblCuenca, lblAlbacete, lblCiudadReal, lblCLM,
+
+			// Cantabria
+			lblSantander, lblCantabria,
+
+			// Canarias
+			lblTenerife, lblCanarias,
+
+			// Baleares
+			lblMayorca, lblBaleares,
+
+			// Asturias
+			lblOviedo, lblAsturias;
+
+	public JPanel panelExtremadura, panelValencia, panelCataluna, panelCyL, panelCLM, panelCantabria, panelCanarias,
+			panelBaleares, panelAsturias;
 
 	public JLabel lblNewLabel_3;
-
-	// branch'master' of https:// github.com/luisj2/ElTiempo_Interfaces_accDatos.git
 
 	/**
 	 * Launch the application.
@@ -104,6 +163,7 @@ public class VistaTiempo extends JFrame {
 				try {
 					VistaTiempo frame = new VistaTiempo();
 					frame.setVisible(true);
+					ControladorTiempo controlador = new ControladorTiempo(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -122,6 +182,41 @@ public class VistaTiempo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		panelGalicia = new JPanel();
+		panelGalicia.setBounds(0, 23, 894, 690);
+		panelGalicia.setVisible(false);
+		contentPane.add(panelGalicia);
+		panelGalicia.setLayout(null);
+
+		lblACorunia = new JLabel("");
+		lblACorunia.setBounds(179, 260, 31, 31);
+		panelGalicia.add(lblACorunia);
+
+		lblLugo = new JLabel("");
+		lblLugo.setBounds(423, 242, 31, 31);
+		panelGalicia.add(lblLugo);
+
+		lblOurense = new JLabel("");
+		lblOurense.setBounds(384, 525, 31, 31);
+		panelGalicia.add(lblOurense);
+
+		lblPontevedra = new JLabel("");
+		lblPontevedra.setBounds(176, 446, 31, 31);
+		panelGalicia.add(lblPontevedra);
+
+		lblGalicia = new JLabel("");
+		lblGalicia.setIcon(new ImageIcon("Imagenes/Comunidades autonomas/GaliciaSF.png"));
+		lblGalicia.setBounds(0, 23, 894, 690);
+		panelGalicia.add(lblGalicia);
+
+		btnMostrarGalicia = new JButton("Clima galicia");
+		btnMostrarGalicia.setBounds(609, 92, 138, 21);
+		panelGalicia.add(btnMostrarGalicia);
+
+		btnVolverGalicia = new JButton("Volver");
+		btnVolverGalicia.setBounds(635, 260, 85, 52);
+		panelGalicia.add(btnVolverGalicia);
+
 		panelMapa = new JPanel();
 		panelMapa.setBounds(0, 23, 894, 690);
 		contentPane.add(panelMapa);
@@ -132,6 +227,7 @@ public class VistaTiempo extends JFrame {
 		panelMapa.add(btnClimaEspania);
 
 		lbl_Madrid = new JLabel("");
+
 		lbl_Madrid.setBounds(449, 271, 31, 31);
 		panelMapa.add(lbl_Madrid);
 
@@ -327,9 +423,10 @@ public class VistaTiempo extends JFrame {
 		lbl_Melilla.setBounds(483, 586, 31, 31);
 		panelMapa.add(lbl_Melilla);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(10, 174, 116, 21);
-		panelMapa.add(comboBox);
+		/*
+		 * JComboBox comboBox = new JComboBox(); comboBox.setBounds(10, 174, 146, 21);
+		 * panelMapa.add(comboBox);
+		 */
 
 		lblFondoMapa = new JLabel("");
 		lblFondoMapa.setIcon(new ImageIcon(
@@ -337,17 +434,20 @@ public class VistaTiempo extends JFrame {
 		lblFondoMapa.setBounds(-1, 44, 894, 634);
 		panelMapa.add(lblFondoMapa);
 
-		JButton btnMostrarClima = new JButton("Mostrar");
+		btnMostrarClima = new JButton("Mostrar");
 		btnMostrarClima.setBounds(33, 222, 78, 21);
 		panelMapa.add(btnMostrarClima);
 
-		JLabel lblNewLabel = new JLabel("Selecciona la comunidad autonoma");
+		JLabel lblNewLabel = new JLabel("Selecciona un lugar");
 		lblNewLabel.setBounds(10, 151, 206, 13);
 		panelMapa.add(lblNewLabel);
 
-		JComboBox comboProvincias = new JComboBox();
+		comboProvincias = new JComboBox();
 		comboProvincias.setBounds(10, 174, 116, 21);
 		panelMapa.add(comboProvincias);
+		for (int i = 0; i < comunidadesAutonomas.length; i++) {
+			comboProvincias.addItem(comunidadesAutonomas[i]);
+		}
 
 		lblFondoMapa = new JLabel("");
 		lblFondoMapa.setIcon(new ImageIcon(
@@ -355,40 +455,45 @@ public class VistaTiempo extends JFrame {
 		lblFondoMapa.setBounds(-1, 44, 894, 634);
 		panelMapa.add(lblFondoMapa);
 
-		btnMostrarClima = new JButton("Mostrar");
-		btnMostrarClima.setBounds(33, 222, 78, 21);
-		panelMapa.add(btnMostrarClima);
-
-		lblNewLabel = new JLabel("Selecciona la comunidad autonoma");
+		lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(10, 151, 206, 13);
 		panelMapa.add(lblNewLabel);
-		// branch 'master' of https://github.com/luisj2/ElTiempo_Interfaces_accDatos.git
 
 		comboDias = new JComboBox();
 		comboDias.setBounds(269, 0, 101, 21);
 		panelMapa.add(comboDias);
+		for (int i = 0; i < dias.length; i++) {
+			comboDias.addItem(dias[i]);
+		}
 
 		lblNewLabel_3 = new JLabel("DIa:");
 		lblNewLabel_3.setBounds(214, 4, 45, 13);
 		panelMapa.add(lblNewLabel_3);
 
-		JPanel panelNavarra = new JPanel();
+		lblRetroalimentacion = new JLabel("");
+		lblRetroalimentacion.setBounds(682, 418, 202, 249);
+		lblRetroalimentacion.setForeground(Color.RED);
+		panelMapa.add(lblRetroalimentacion);
+
+		panelNavarra = new JPanel();
+		panelNavarra.setVisible(false);
 		panelNavarra.setBounds(0, 23, 894, 690);
 		contentPane.add(panelNavarra);
 		panelNavarra.setLayout(null);
 
-		JLabel lblPamplona = new JLabel("");
+		lblPamplona = new JLabel("");
 		lblPamplona.setBounds(280, 320, 31, 31);
 		panelNavarra.add(lblPamplona);
 
-		JLabel lblNavarra = new JLabel("");
+		lblNavarra = new JLabel("");
 		lblNavarra.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\NavarraSF.png"));
 		lblNavarra.setBounds(0, 23, 894, 690);
 		panelNavarra.add(lblNavarra);
 
-		JPanel panelAndalucia = new JPanel();
+		panelAndalucia = new JPanel();
 		panelAndalucia.setBounds(0, 23, 894, 690);
+		panelAndalucia.setVisible(false);
 		contentPane.add(panelAndalucia);
 		panelAndalucia.setLayout(null);
 
@@ -430,297 +535,275 @@ public class VistaTiempo extends JFrame {
 		lbl_Andalucia.setBounds(0, 23, 894, 690);
 		panelAndalucia.add(lbl_Andalucia);
 
-		JPanel panelGalicia = new JPanel();
-		panelGalicia.setBounds(0, 23, 894, 690);
-		contentPane.add(panelGalicia);
-		panelGalicia.setLayout(null);
-
-		JLabel lblACoruñaa = new JLabel("");
-		lblACoruñaa.setBounds(179, 260, 31, 31);
-		panelGalicia.add(lblACoruñaa);
-
-		JLabel lblLugo = new JLabel("");
-		lblLugo.setBounds(423, 242, 31, 31);
-		panelGalicia.add(lblLugo);
-
-		JLabel lblOurense = new JLabel("");
-		lblOurense.setBounds(384, 525, 31, 31);
-		panelGalicia.add(lblOurense);
-
-		JLabel lblPontevedra = new JLabel("");
-		lblPontevedra.setBounds(176, 446, 31, 31);
-		panelGalicia.add(lblPontevedra);
-
-		JLabel lblGalicia = new JLabel("");
-		lblGalicia.setIcon(new ImageIcon(
-				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\GaliciaSF.png"));
-		lblGalicia.setBounds(0, 23, 894, 690);
-		panelGalicia.add(lblGalicia);
-
-		JPanel panelMurcia = new JPanel();
+		panelMurcia = new JPanel();
 		panelMurcia.setBounds(0, 23, 894, 690);
+		panelMurcia.setVisible(false);
 		contentPane.add(panelMurcia);
 		panelMurcia.setLayout(null);
 
-		JLabel lblMurciaa = new JLabel("");
+		lblMurciaa = new JLabel("");
 		lblMurciaa.setBounds(313, 355, 31, 31);
 		panelMurcia.add(lblMurciaa);
 
-		JLabel lblMurcia = new JLabel("");
+		lblMurcia = new JLabel("");
 		lblMurcia.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\MurciaSF.png"));
 		lblMurcia.setBounds(0, 23, 894, 690);
 		panelMurcia.add(lblMurcia);
 
-		JPanel panelMadrid = new JPanel();
+		panelMadrid = new JPanel();
 		panelMadrid.setBounds(0, 23, 894, 690);
+		panelMadrid.setVisible(false);
+		panelMadrid.setVisible(false);
 		contentPane.add(panelMadrid);
 		panelMadrid.setLayout(null);
 
-		JLabel lblMadridd = new JLabel("");
+		lblMadridd = new JLabel("");
 		lblMadridd.setBounds(339, 342, 31, 31);
 		panelMadrid.add(lblMadridd);
 
-		JLabel lblMadrid = new JLabel("");
+		lblMadrid = new JLabel("");
 		lblMadrid.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\MadridSF.png"));
 		lblMadrid.setBounds(0, 23, 894, 690);
 		panelMadrid.add(lblMadrid);
 
-		JPanel panelLaRioja = new JPanel();
+		panelLaRioja = new JPanel();
 		panelLaRioja.setBounds(0, 23, 894, 690);
+		panelLaRioja.setVisible(false);
 		contentPane.add(panelLaRioja);
 		panelLaRioja.setLayout(null);
 
-		JLabel lblLogroño = new JLabel("");
-		lblLogroño.setBounds(336, 258, 31, 31);
-		panelLaRioja.add(lblLogroño);
+		lblLogronio = new JLabel("");
+		lblLogronio.setBounds(336, 258, 31, 31);
+		panelLaRioja.add(lblLogronio);
 
-		JLabel lblLaRioja = new JLabel("");
+		lblLaRioja = new JLabel("");
 		lblLaRioja.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\LaRiojaSF.png"));
 		lblLaRioja.setBounds(0, 23, 894, 690);
 		panelLaRioja.add(lblLaRioja);
 
-		JPanel panelExtremadura = new JPanel();
+		panelExtremadura = new JPanel();
 		panelExtremadura.setBounds(0, 23, 894, 690);
+		panelExtremadura.setVisible(false);
 		contentPane.add(panelExtremadura);
 		panelExtremadura.setLayout(null);
 
-		JLabel lblCaceres = new JLabel("");
+		lblCaceres = new JLabel("");
 		lblCaceres.setBounds(188, 209, 31, 31);
 		panelExtremadura.add(lblCaceres);
 
-		JLabel lblBadajoz = new JLabel("");
+		lblBadajoz = new JLabel("");
 		lblBadajoz.setBounds(193, 428, 31, 31);
 		panelExtremadura.add(lblBadajoz);
 
-		JLabel lblExtremadura = new JLabel("");
+		lblExtremadura = new JLabel("");
 		lblExtremadura.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\ExtremaduraSF.png"));
 		lblExtremadura.setBounds(0, 23, 894, 690);
 		panelExtremadura.add(lblExtremadura);
 
-		JPanel panelValencia = new JPanel();
+		panelValencia = new JPanel();
 		panelValencia.setBounds(0, 23, 894, 690);
+		panelValencia.setVisible(false);
 		contentPane.add(panelValencia);
 		panelValencia.setLayout(null);
 
-		JLabel lblCastellon = new JLabel("");
+		lblCastellon = new JLabel("");
 		lblCastellon.setBounds(299, 207, 31, 31);
 		panelValencia.add(lblCastellon);
 
-		JLabel lblValencia = new JLabel("");
+		lblValencia = new JLabel("");
 		lblValencia.setBounds(230, 324, 31, 31);
 		panelValencia.add(lblValencia);
 
-		JLabel lblAlicante = new JLabel("");
+		lblAlicante = new JLabel("");
 		lblAlicante.setBounds(230, 465, 31, 31);
 		panelValencia.add(lblAlicante);
 
-		JLabel lblValenciaF = new JLabel("");
+		lblValenciaF = new JLabel("");
 		lblValenciaF.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\ComunidadValencianaSF.png"));
 		lblValenciaF.setBounds(0, 23, 894, 690);
 		panelValencia.add(lblValenciaF);
 
-		JPanel panelCataluna = new JPanel();
+		panelCataluna = new JPanel();
 		panelCataluna.setBounds(0, 23, 894, 690);
+		panelCataluna.setVisible(false);
 		contentPane.add(panelCataluna);
 		panelCataluna.setLayout(null);
 
-		JLabel lblLleida = new JLabel("");
+		lblLleida = new JLabel("");
 		lblLleida.setBounds(187, 225, 31, 31);
 		panelCataluna.add(lblLleida);
 
-		JLabel lblTarragona = new JLabel("");
+		lblTarragona = new JLabel("");
 		lblTarragona.setBounds(127, 491, 31, 31);
 		panelCataluna.add(lblTarragona);
 
-		JLabel lblGirona = new JLabel("");
+		lblGirona = new JLabel("");
 		lblGirona.setBounds(539, 230, 31, 31);
 		panelCataluna.add(lblGirona);
 
-		JLabel lblBarcelona = new JLabel("");
+		lblBarcelona = new JLabel("");
 		lblBarcelona.setBounds(364, 327, 31, 31);
 		panelCataluna.add(lblBarcelona);
 
-		JLabel lblCataluna = new JLabel("");
+		lblCataluna = new JLabel("");
 		lblCataluna.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\CatalunaSF.png"));
 		lblCataluna.setBounds(0, 23, 894, 690);
 		panelCataluna.add(lblCataluna);
 
-		JPanel panelCyL = new JPanel();
+		panelCyL = new JPanel();
 		panelCyL.setBounds(0, 23, 894, 690);
+		panelCyL.setVisible(false);
 		contentPane.add(panelCyL);
 		panelCyL.setLayout(null);
 
-		JLabel lblSoria = new JLabel("");
+		lblSoria = new JLabel("");
 		lblSoria.setBounds(671, 338, 31, 31);
 		panelCyL.add(lblSoria);
 
-		JLabel lblBurgos = new JLabel("");
+		lblBurgos = new JLabel("");
 		lblBurgos.setBounds(510, 200, 31, 31);
 		panelCyL.add(lblBurgos);
 
-		JLabel lblSegovia = new JLabel("");
+		lblSegovia = new JLabel("");
 		lblSegovia.setBounds(443, 432, 31, 31);
 		panelCyL.add(lblSegovia);
 
-		JLabel lblPalencia = new JLabel("");
+		lblPalencia = new JLabel("");
 		lblPalencia.setBounds(359, 187, 31, 31);
 		panelCyL.add(lblPalencia);
 
-		JLabel lblValladolid = new JLabel("");
+		lblValladolid = new JLabel("");
 		lblValladolid.setBounds(308, 346, 31, 31);
 		panelCyL.add(lblValladolid);
 
-		JLabel lblAvila = new JLabel("");
+		lblAvila = new JLabel("");
 		lblAvila.setBounds(295, 560, 31, 31);
 		panelCyL.add(lblAvila);
 
-		JLabel lblLeon = new JLabel("");
+		lblLeon = new JLabel("");
 		lblLeon.setBounds(174, 139, 31, 31);
 		panelCyL.add(lblLeon);
 
-		JLabel lblZamora = new JLabel("");
+		lblZamora = new JLabel("");
 		lblZamora.setBounds(165, 329, 31, 31);
 		panelCyL.add(lblZamora);
 
-		JLabel lblSalamanca = new JLabel("");
+		lblSalamanca = new JLabel("");
 		lblSalamanca.setBounds(131, 501, 31, 31);
 		panelCyL.add(lblSalamanca);
 
-		JLabel lblCyL = new JLabel("");
+		lblCyL = new JLabel("");
 		lblCyL.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\CastillaYLeonSF.png"));
 		lblCyL.setBounds(0, 23, 894, 690);
 		panelCyL.add(lblCyL);
 
-		JPanel panelCLM = new JPanel();
+		panelCLM = new JPanel();
 		panelCLM.setBounds(0, 23, 894, 690);
+		panelCLM.setVisible(false);
 		contentPane.add(panelCLM);
 		panelCLM.setLayout(null);
 
-		JLabel lblToledo = new JLabel("");
+		lblToledo = new JLabel("");
 		lblToledo.setBounds(168, 301, 31, 31);
 		panelCLM.add(lblToledo);
 
-		JLabel lblGuadalajara = new JLabel("");
+		lblGuadalajara = new JLabel("");
 		lblGuadalajara.setBounds(381, 127, 31, 31);
 		panelCLM.add(lblGuadalajara);
 
-		JLabel lblCuenca = new JLabel("");
+		lblCuenca = new JLabel("");
 		lblCuenca.setBounds(446, 298, 31, 31);
 		panelCLM.add(lblCuenca);
 
-		JLabel lblAlbacete = new JLabel("");
+		lblAlbacete = new JLabel("");
 		lblAlbacete.setBounds(470, 478, 31, 31);
 		panelCLM.add(lblAlbacete);
 
-		JLabel lblCiudadReal = new JLabel("");
+		lblCiudadReal = new JLabel("");
 		lblCiudadReal.setBounds(210, 469, 31, 31);
 		panelCLM.add(lblCiudadReal);
 
-		JLabel lblCLM = new JLabel("");
+		lblCLM = new JLabel("");
 		lblCLM.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\Castilla-la-Mancha_SF.png"));
 		lblCLM.setBounds(0, 23, 894, 650);
 		panelCLM.add(lblCLM);
 
-		JPanel panelCantabria = new JPanel();
+		panelCantabria = new JPanel();
 		panelCantabria.setBounds(0, 23, 894, 690);
+		panelCantabria.setVisible(false);
 		contentPane.add(panelCantabria);
 		panelCantabria.setLayout(null);
 
-		JLabel lblSantander = new JLabel("");
+		lblSantander = new JLabel("");
 		lblSantander.setBounds(405, 304, 31, 31);
 		panelCantabria.add(lblSantander);
 
-		JLabel lblCantabria = new JLabel("");
+		lblCantabria = new JLabel("");
 		lblCantabria.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\CantabriaSF.png"));
 		lblCantabria.setBounds(0, 23, 894, 690);
 		panelCantabria.add(lblCantabria);
 
-		JPanel panelCanarias = new JPanel();
+		panelCanarias = new JPanel();
 		panelCanarias.setBounds(0, 23, 894, 690);
+		panelCanarias.setVisible(false);
 		contentPane.add(panelCanarias);
 		panelCanarias.setLayout(null);
 
-		JLabel lblTenerife = new JLabel("");
+		lblTenerife = new JLabel("");
 		lblTenerife.setBounds(215, 382, 31, 31);
 		panelCanarias.add(lblTenerife);
 
-		JLabel lblCanarias = new JLabel("");
+		lblCanarias = new JLabel("");
 		lblCanarias.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\CanariasSF.png"));
 		lblCanarias.setBounds(0, 23, 894, 690);
 		panelCanarias.add(lblCanarias);
 
-		JPanel panelBaleares = new JPanel();
+		panelBaleares = new JPanel();
 		panelBaleares.setBounds(0, 23, 894, 690);
+		panelBaleares.setVisible(false);
 		contentPane.add(panelBaleares);
 		panelBaleares.setLayout(null);
 
-		JLabel lblMayorca = new JLabel("");
+		lblMayorca = new JLabel("");
 		lblMayorca.setBounds(362, 262, 31, 31);
 		panelBaleares.add(lblMayorca);
 		// branch 'master' of https://github.com/luisj2/ElTiempo_Interfaces_accDatos.git
 
-		JLabel lblBaleares = new JLabel("");
+		lblBaleares = new JLabel("");
 		lblBaleares.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\BalearesSF.png"));
 		lblBaleares.setBounds(0, 23, 894, 690);
 		panelBaleares.add(lblBaleares);
 
-		JPanel panelAsturias = new JPanel();
+		panelAsturias = new JPanel();
 		panelAsturias.setBounds(0, 23, 894, 690);
+		panelAsturias.setVisible(false);
 		contentPane.add(panelAsturias);
 		panelAsturias.setLayout(null);
 
-		JLabel lblOviedo = new JLabel("");
+		lblOviedo = new JLabel("");
 		lblOviedo.setBounds(344, 321, 31, 31);
 		panelAsturias.add(lblOviedo);
 
-		JLabel lblAsturias = new JLabel("");
+		lblAsturias = new JLabel("");
 		lblAsturias.setIcon(new ImageIcon(
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\AsturiasSF.png"));
 		lblAsturias.setBounds(0, 23, 894, 690);
 		panelAsturias.add(lblAsturias);
 
-		lblRetroalimentacion = new JLabel("");
-		lblRetroalimentacion.setBounds(682, 418, 202, 249);
-		lblRetroalimentacion.setForeground(Color.RED);
-		panelMapa.add(lblRetroalimentacion);
-
-		btnClimaEspania = new JButton("Ver Clima");
-		btnClimaEspania.setBounds(-1, 0, 127, 21);
-		panelMapa.add(btnClimaEspania);
-
 		panelAragon = new JPanel();
 		panelAragon.setBounds(0, 23, 894, 690);
+		panelAragon.setVisible(false);
 		contentPane.add(panelAragon);
 		panelAragon.setLayout(null);
 
@@ -728,11 +811,11 @@ public class VistaTiempo extends JFrame {
 		lblHuesca.setBounds(305, 165, 31, 31);
 		panelAragon.add(lblHuesca);
 
-		JLabel lblZaragoza = new JLabel("");
+		lblZaragoza = new JLabel("");
 		lblZaragoza.setBounds(153, 303, 31, 31);
 		panelAragon.add(lblZaragoza);
 
-		JLabel lblTeruel = new JLabel("");
+		lblTeruel = new JLabel("");
 		lblTeruel.setBounds(176, 492, 31, 31);
 		panelAragon.add(lblTeruel);
 
@@ -741,14 +824,6 @@ public class VistaTiempo extends JFrame {
 				"C:\\Users\\Equipo\\git\\ElTiempo_Interfaces_accDatos\\ElTiempo_Espania\\Imagenes\\Comunidades_Redimensionadas\\AragonSF.png"));
 		lblAragon.setBounds(0, 23, 894, 690);
 		panelAragon.add(lblAragon);
-
-		for (int i = 0; i < dias.length; i++) {
-			comboDias.addItem(dias[i]);
-		}
-
-		for (int i = 0; i < comunidadesAutonomas.length; i++) {
-			comboProvincias.addItem(comunidadesAutonomas[i]);
-		}
 
 	}
 }

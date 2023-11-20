@@ -11,8 +11,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
@@ -39,9 +41,9 @@ public class ControladorTiempo implements ActionListener {
 	String [] catalunia = {"Lerida,Tarragona,Barcelona,Gerona"};
 	String [] extremadura = {"Caceres,Badajoz"};
 	String [] galicia = {"ACorunia","Lugo","Pontevedra","Orense"};
-	String madrid = "Madrid";
-	String mucia = "Murcia";
-	String navarra = "Navarra";
+	String [] madrid = {"Madrid"};
+	String [] murcia = {"Murcia"};
+	String [] navarra = {"Navarra"};
 	String [] paisVasco = {"Alava,Vizcaya,Guipuzcoa"};
 	
 	VistaTiempo vista;
@@ -49,6 +51,9 @@ public class ControladorTiempo implements ActionListener {
 	public ControladorTiempo(VistaTiempo frame) {
 		this.vista = frame;
 		vista.btnClimaEspania.addActionListener(this);
+		vista.btnMostrarClima.addActionListener(this);
+		vista.btnVolverGalicia.addActionListener(this);
+		vista.btnMostrarGalicia.addActionListener(this);
 	}
 
 	@Override
@@ -56,11 +61,109 @@ public class ControladorTiempo implements ActionListener {
 
 		if (e.getSource() == vista.btnClimaEspania) {
 
-			accederValorPorperties();
-
+			
+				accederValorPorperties();
+			
+		}
+		if(e.getSource() == vista.btnMostrarClima) {
+			String prov = vista.comboProvincias.getSelectedItem().toString();
+			hacerPanelesInvisibles();
+			mostrarPanelProvincia(prov);
+		}
+		if(e.getSource() == vista.btnMostrarGalicia){
+			accederValorPorpertiesComAutonoma(galicia, "galicia");
+		}
+		if(e.getSource() == vista.btnVolverGalicia) {
+			hacerPanelesInvisibles();
+			vista.panelMapa.setVisible(true);
 		}
 
 	}
+
+	public void mostrarPanelProvincia(String provincia) {
+	    
+
+	    // Muestra el panel según la provincia proporcionada
+	    switch (provincia) {
+	    
+	    case "Espania":
+	    	vista.panelMapa.setVisible(true);
+	    	break;
+	        case "Andalucia":
+	            vista.panelAndalucia.setVisible(true);
+	            break;
+	        case "Aragon":
+	            vista.panelAragon.setVisible(true);
+	            break;
+	        case "Asturias":
+	            vista.panelAsturias.setVisible(true);
+	            break;
+	        case "Baleares":
+	            vista.panelBaleares.setVisible(true);
+	            break;
+	        case "Canarias":
+	            vista.panelCanarias.setVisible(true);
+	            break;
+	        case "Cantabria":
+	            vista.panelCantabria.setVisible(true);
+	            break;
+	        case "Cataluna":
+	            vista.panelCataluna.setVisible(true);
+	            break;
+	        case "CLM":
+	            vista.panelCLM.setVisible(true);
+	            break;
+	        case "CyL":
+	            vista.panelCyL.setVisible(true);
+	            break;
+	        case "Extremadura":
+	            vista.panelExtremadura.setVisible(true);
+	            break;
+	        case "Galicia":
+	            vista.panelGalicia.setVisible(true);
+	            break;
+	        case "LaRioja":
+	            vista.panelLaRioja.setVisible(true);
+	            break;
+	        case "Madrid":
+	            vista.panelMadrid.setVisible(true);
+	            break;
+	        case "Murcia":
+	            vista.panelMurcia.setVisible(true);
+	            break;
+	        case "Navarra":
+	            vista.panelNavarra.setVisible(true);
+	            break;
+	        case "Valencia":
+	            vista.panelValencia.setVisible(true);
+	            break;
+	        default:
+	            // Manejo para cualquier otro caso o provincia no reconocida
+	            break;
+	    }
+	}
+
+	
+	private void hacerPanelesInvisibles() {
+		vista.panelAndalucia.setVisible(false);
+		vista.panelAragon.setVisible(false);
+		vista.panelAsturias.setVisible(false);
+		vista.panelBaleares.setVisible(false);
+		vista.panelCanarias.setVisible(false);
+		vista.panelCantabria.setVisible(false);
+		vista.panelCataluna.setVisible(false);
+		vista.panelCLM.setVisible(false);
+		vista.panelCyL.setVisible(false);
+		vista.panelExtremadura.setVisible(false);
+		vista.panelGalicia.setVisible(false);
+		vista.panelLaRioja.setVisible(false);
+		vista.panelMadrid.setVisible(false);
+		vista.panelMurcia.setVisible(false);
+		vista.panelNavarra.setVisible(false);
+		vista.panelValencia.setVisible(false);
+		vista.panelMapa.setVisible(false);
+	}
+	
 
 	public ImageIcon elegirClima(String clima) {
 		ImageIcon imagen = null;
@@ -233,7 +336,144 @@ public class ControladorTiempo implements ActionListener {
 			}
 		}
 	}
+	public void accederValorPorpertiesComAutonoma(String [] provincias,String provincia) {
+		Properties configuracion = null;
+		InputStream entrada = null;
+		String link = "";
 
+		try {
+			configuracion = new Properties();
+			configuracion.load(new FileReader("config.properties"));
+			// Cargar el archivo de propiedades
+			// entrada = new FileInputStream("config.properties");
+
+			
+			Set<String> ciudades =new HashSet<>(Arrays.asList(provincias));
+
+			Gson gson = new Gson();
+
+			for (String ciudad : ciudades) {
+				link = configuracion.getProperty(ciudad);
+
+				if (link != null) {
+					URL url = new URL(link);
+
+					// Abrir conexión HTTP
+					HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+					// Configurar la solicitud como GET
+					conexion.setRequestMethod("GET");
+
+					// Obtener la respuesta
+					int codigoRespuesta = conexion.getResponseCode();
+
+					// Leer la respuesta
+					if (codigoRespuesta == HttpURLConnection.HTTP_OK) {
+						BufferedReader lector = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
+						String linea;
+						String respuesta = "";
+
+						while ((linea = lector.readLine()) != null) {
+							respuesta += linea;
+						}
+
+						lector.close();
+						JsonObject jsonObject = new Gson().fromJson(respuesta, JsonObject.class);
+						// obtener los datos necesarios
+						String nomCiudad = jsonObject.getAsJsonObject("city").get("cityName").getAsString();
+						String fecha = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String clima = "";
+						String maxTemp = "";
+						String minTemp = "";
+						// comprobamos de que fecha quiere los datos el usuario y cogemos el elemento
+						// del JsonArray segun esto
+						// el 0 para hoy,el 1 para mañana...
+						if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("Hoy")) {
+							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("weather")
+									.getAsString();
+							maxTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("maxTemp")
+									.getAsString();
+							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("minTemp")
+									.getAsString();
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("Mañana")) {
+							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("weather")
+									.getAsString();
+							maxTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("maxTemp")
+									.getAsString();
+							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("minTemp")
+									.getAsString();
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("En 2 dias")) {
+							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("weather")
+									.getAsString();
+							maxTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("maxTemp")
+									.getAsString();
+							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("minTemp")
+									.getAsString();
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("En 3 dias")) {
+							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("weather")
+									.getAsString();
+							maxTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("maxTemp")
+									.getAsString();
+							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("minTemp")
+									.getAsString();
+						}
+						
+						if(provincia.equalsIgnoreCase("galicia")) {
+						cambiarImagenGalicia(clima, ciudad);	
+						}else if(provincia.equalsIgnoreCase("catalunia")) {
+							
+						}
+						
+
+						// vista.textRetroalimentacion.setText(
+						// "fecha:" + fecha + " clima:" + clima + " maxTemp:" + maxTemp + " minTemp:" +
+						// minTemp);
+						// comprobar que las fechas son del dia indicado
+
+						// String fechaEs = deCuandoFecha(fecha);
+						// comparamos del dia que es el objeto que hemos sacado con el dia que hay
+						// introducido
+						// if (fechaEs.equalsIgnoreCase(vista.comboDias.toString())) {
+
+					} else {
+						// vista.lblRetroalimentacion.setText("Error en la solicitud. Código de
+						// respuesta:" + codigoRespuesta);
+
+					}
+
+				} else {
+					// vista.lblRetroalimentacion.setText("El link es null");
+				}
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Cerrar la conexión en el bloque finally
+
+			if (entrada != null) {
+				try {
+					entrada.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	// cambiar label segun el tiempo
 	private void cambiarImagenEspania(String clima, String ciudad) {
 		ImageIcon imagen = elegirClima(clima);
@@ -245,7 +485,7 @@ public class ControladorTiempo implements ActionListener {
 			vista.lbl_Ourense.setIcon(imagen);
 			break;
 		case "ACorunia":
-			vista.lbl_ACorunia.setIcon(imagen);
+			//vista.lbl_A_Corunia.setIcon(imagen);
 			break;
 		case "Pontevedra":
 			vista.lbl_Pontevedra.setIcon(imagen);
@@ -398,21 +638,21 @@ public class ControladorTiempo implements ActionListener {
 
 		switch (ciudad) {
 		case "Lugo":
-			vista.lbl_Lugo.setIcon(imagen);
+			vista.lblLugo.setIcon(imagen);
 			break;
 		case "ACorunia":
-			vista.lbl_ACorunia.setIcon(imagen);
+			vista.lblACorunia.setIcon(imagen);
 			break;
 
 		case "Pontevedra":
-			vista.lbl_Pontevedra.setIcon(imagen);
+			vista.lblPontevedra.setIcon(imagen);
 			break;
 
 		case "Ourense":
-			vista.lbl_Ourense.setIcon(imagen);
+			vista.lblOurense.setIcon(imagen);
 			break;
 		case "Oviedo":
-			// vista.lbl_Oviedo.setIcon(imagen);
+			vista.lblOviedo.setIcon(imagen);
 			break;
 
 		default:
