@@ -99,7 +99,8 @@ public class main {
 				int codigoRespuesta = conexion.getResponseCode();
 
 				// Leer la respuesta
-				if (codigoRespuesta == HttpURLConnection.HTTP_OK) {
+				
+				while (codigoRespuesta != 301) {
 					BufferedReader lector = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
 					String linea;
 					String respuesta = "";
@@ -111,7 +112,7 @@ public class main {
 					
 
 					
-					lector.close();
+					
 					 JsonObject jsonObject = new Gson().fromJson(respuesta, JsonObject.class);	
 					 //obtener los datos necesarios
 				    String nomCiudad = jsonObject.getAsJsonObject("city").get("cityName").getAsString();
@@ -137,7 +138,10 @@ public class main {
 					
 					CambiarImagen(clima,ciudad);
 					
-
+				}
+			}
+			 }
+		}
 				
 					// comprobar que las fechas son del dia indicado
 					 
@@ -149,17 +153,10 @@ public class main {
 				
 
 					
-				} else {
-					System.out.println("Error en la solicitud. Código de respuesta:" + codigoRespuesta);
-					
-				}
-				
-			} else {
-				System.out.println("El link es null");
-			}
 			
-			}
-			 }
+			
+			
+			 
 
 		 catch (Exception e) {
 			e.printStackTrace();
@@ -174,7 +171,10 @@ public class main {
 				}
 			}
 		}
-	            }
+				}
+				
+					
+	            
 	        
 	
 	       

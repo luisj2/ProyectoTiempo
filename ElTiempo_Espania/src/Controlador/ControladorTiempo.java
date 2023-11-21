@@ -38,112 +38,133 @@ public class ControladorTiempo implements ActionListener {
 			"Caceres", "Badajoz", "Toledo", "Cuenca", "Guadalajara", "Albacete", "CiudadReal", "Valencia", "Castellon",
 			"Alicante", "Murcia", "PalmaDeMayorca", "Tenerife", "Almeria", "Jaen", "Granada", "Cordoba", "Malaga",
 			"Sevilla", "Cadiz", "Huelva", "Ceuta", "Melilla" };
-	String [] catalunia = {"Lerida,Tarragona,Barcelona,Gerona"};
-	String [] extremadura = {"Caceres,Badajoz"};
-	String [] galicia = {"ACorunia","Lugo","Pontevedra","Orense"};
-	String [] madrid = {"Madrid"};
-	String [] murcia = {"Murcia"};
-	String [] navarra = {"Navarra"};
-	String [] paisVasco = {"Alava,Vizcaya,Guipuzcoa"};
-	
+	String[] catalunia = { "Lerida,Tarragona,Barcelona,Gerona" };
+	String[] extremadura = { "Caceres,Badajoz" };
+	String[] galicia = { "ACorunia", "Lugo", "Pontevedra", "Orense" };
+	String[] madrid = { "Madrid" };
+	String[] murcia = { "Murcia" };
+	String[] navarra = { "Pamplona" };
+	String[] paisVasco = { "Alava,Vizcaya,Guipuzcoa" };
+	 String[] andalucia 	 = {"Huelva","Almeria","Sevilla","Cadiz","Malaga","Granada","Jaen","Cordoba"};
+	 String[] aragon 		 = {"Huesca","Zaragoza","Teruel"};
+	 String[] asturias 		 = {"Asturias"};
+	 String[] baleares 		 = {"Baleares"};
+	 String[] canarias 		 = {"Tenerife"};
+	 String[] cantabria 	 = {"Cantabria"};
+	 String[] castillaleon   = {"Leon","Zamora","Salamanca","Palencia","Valladolid","Avila","Segovia","Burgos", "Soria"};
+	 String[] castillamancha = {"Cuenca","Guadalajara","Ciudad_Real","Toledo","Albacete"};
+
 	VistaTiempo vista;
 
 	public ControladorTiempo(VistaTiempo frame) {
 		this.vista = frame;
 		vista.btnClimaEspania.addActionListener(this);
 		vista.btnMostrarClima.addActionListener(this);
-		vista.btnVolverGalicia.addActionListener(this);
-		vista.btnMostrarGalicia.addActionListener(this);
+		vista.btnVolver.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+	    if (e.getSource() == vista.btnClimaEspania) {
+	        String prov = vista.comboProvincias.getSelectedItem().toString();
+	        if (vista.panelMapa.isVisible()) {
+	            accederValorPorperties();
+	        } else if (prov.equalsIgnoreCase("galicia")) {
+	            accederValorPorpertiesComAutonoma(galicia, "galicia");
+	        } else if (prov.equalsIgnoreCase("catalunia")) {
+	            accederValorPorpertiesComAutonoma(catalunia, "catalunia");
+	        } else if (prov.equalsIgnoreCase("extremadura")) {
+	            accederValorPorpertiesComAutonoma(extremadura, "extremadura");
+	        } else if (prov.equalsIgnoreCase("madrid")) {
+	            accederValorPorpertiesComAutonoma(madrid, "madrid");
+	        } else if (prov.equalsIgnoreCase("murcia")) {
+	            accederValorPorpertiesComAutonoma(murcia, "murcia");
+	        } else if (prov.equalsIgnoreCase("navarra")) {
+	            accederValorPorpertiesComAutonoma(navarra, "navarra");
+	        } else if (prov.equalsIgnoreCase("pais-Vasco")) {
+	            accederValorPorpertiesComAutonoma(paisVasco, "paisVasco");
+	        }
+	    }
 
-		if (e.getSource() == vista.btnClimaEspania) {
+	    if (e.getSource() == vista.btnMostrarClima) {
+	        String prov = vista.comboProvincias.getSelectedItem().toString();
+	        hacerPanelesInvisibles();
+	        mostrarPanelProvincia(prov);
+	    }
 
-			
-				accederValorPorperties();
-			
-		}
-		if(e.getSource() == vista.btnMostrarClima) {
-			String prov = vista.comboProvincias.getSelectedItem().toString();
-			hacerPanelesInvisibles();
-			mostrarPanelProvincia(prov);
-		}
-		if(e.getSource() == vista.btnMostrarGalicia){
-			accederValorPorpertiesComAutonoma(galicia, "galicia");
-		}
-		if(e.getSource() == vista.btnVolverGalicia) {
-			hacerPanelesInvisibles();
-			vista.panelMapa.setVisible(true);
-		}
-
-	}
-
-	public void mostrarPanelProvincia(String provincia) {
-	    
-
-	    // Muestra el panel según la provincia proporcionada
-	    switch (provincia) {
-	    
-	    case "Espania":
-	    	vista.panelMapa.setVisible(true);
-	    	break;
-	        case "Andalucia":
-	            vista.panelAndalucia.setVisible(true);
-	            break;
-	        case "Aragon":
-	            vista.panelAragon.setVisible(true);
-	            break;
-	        case "Asturias":
-	            vista.panelAsturias.setVisible(true);
-	            break;
-	        case "Baleares":
-	            vista.panelBaleares.setVisible(true);
-	            break;
-	        case "Canarias":
-	            vista.panelCanarias.setVisible(true);
-	            break;
-	        case "Cantabria":
-	            vista.panelCantabria.setVisible(true);
-	            break;
-	        case "Cataluna":
-	            vista.panelCataluna.setVisible(true);
-	            break;
-	        case "CLM":
-	            vista.panelCLM.setVisible(true);
-	            break;
-	        case "CyL":
-	            vista.panelCyL.setVisible(true);
-	            break;
-	        case "Extremadura":
-	            vista.panelExtremadura.setVisible(true);
-	            break;
-	        case "Galicia":
-	            vista.panelGalicia.setVisible(true);
-	            break;
-	        case "LaRioja":
-	            vista.panelLaRioja.setVisible(true);
-	            break;
-	        case "Madrid":
-	            vista.panelMadrid.setVisible(true);
-	            break;
-	        case "Murcia":
-	            vista.panelMurcia.setVisible(true);
-	            break;
-	        case "Navarra":
-	            vista.panelNavarra.setVisible(true);
-	            break;
-	        case "Valencia":
-	            vista.panelValencia.setVisible(true);
-	            break;
-	        default:
-	            // Manejo para cualquier otro caso o provincia no reconocida
-	            break;
+	    if (e.getSource() == vista.btnVolver) {
+	        hacerPanelesInvisibles();
+	        vista.panelMapa.setVisible(true);
 	    }
 	}
 
+
+		
+
 	
+
+	public void mostrarPanelProvincia(String provincia) {
+
+		// Muestra el panel según la provincia proporcionada
+		switch (provincia) {
+		
+		
+
+		
+		case "Andalucia":
+			vista.panelAndalucia.setVisible(true);
+			break;
+		case "Aragon":
+			vista.panelAragon.setVisible(true);
+			break;
+		case "Asturias":
+			vista.panelAsturias.setVisible(true);
+			break;
+		case "Islas Baleares":
+			vista.panelBaleares.setVisible(true);
+			break;
+		case "Canarias":
+			vista.panelCanarias.setVisible(true);
+			break;
+		case "Cantabria":
+			vista.panelCantabria.setVisible(true);
+			break;
+		case "Catalunia":
+			vista.panelCatalunia.setVisible(true);
+			break;
+		case "Castilla-La Mancha":
+			vista.panelCLM.setVisible(true);
+			break;
+		case "Castilla y Leon":
+			vista.panelCyL.setVisible(true);
+			break;
+		case "Extremadura":
+			vista.panelExtremadura.setVisible(true);
+			break;
+		case "Galicia":
+			vista.panelGalicia.setVisible(true);
+			break;
+		case "La Rioja":
+			vista.panelLaRioja.setVisible(true);
+			break;
+		case "Madrid":
+			vista.panelMadrid.setVisible(true);
+			break;
+		case "Murcia":
+			vista.panelMurcia.setVisible(true);
+			break;
+		case "Navarra":
+			vista.panelNavarra.setVisible(true);
+			break;
+		case "Comunidad Valenciana":
+			vista.panelValencia.setVisible(true);
+			break;
+		default:
+			// Manejo para cualquier otro caso o provincia no reconocida
+			break;
+		}
+	}
+
 	private void hacerPanelesInvisibles() {
 		vista.panelAndalucia.setVisible(false);
 		vista.panelAragon.setVisible(false);
@@ -151,7 +172,7 @@ public class ControladorTiempo implements ActionListener {
 		vista.panelBaleares.setVisible(false);
 		vista.panelCanarias.setVisible(false);
 		vista.panelCantabria.setVisible(false);
-		vista.panelCataluna.setVisible(false);
+		vista.panelCatalunia.setVisible(false);
 		vista.panelCLM.setVisible(false);
 		vista.panelCyL.setVisible(false);
 		vista.panelExtremadura.setVisible(false);
@@ -163,7 +184,6 @@ public class ControladorTiempo implements ActionListener {
 		vista.panelValencia.setVisible(false);
 		vista.panelMapa.setVisible(false);
 	}
-	
 
 	public ImageIcon elegirClima(String clima) {
 		ImageIcon imagen = null;
@@ -194,16 +214,14 @@ public class ControladorTiempo implements ActionListener {
 		case "Chubascos dispersos":
 			imagen = new ImageIcon("Imagenes/lluvia_buena.png");
 			break;
-			default:
-				System.out.println("No ha entrado en "+clima);
-				break;
+		default:
+			System.out.println("No ha entrado en " + clima);
+			break;
 
 		}
 		return imagen;
 
 	}
-	
-	
 
 	public void accederValorPorperties() {
 		Properties configuracion = null;
@@ -336,7 +354,8 @@ public class ControladorTiempo implements ActionListener {
 			}
 		}
 	}
-	public void accederValorPorpertiesComAutonoma(String [] provincias,String provincia) {
+
+	public void accederValorPorpertiesComAutonoma(String[] provincias, String provincia) {
 		Properties configuracion = null;
 		InputStream entrada = null;
 		String link = "";
@@ -347,8 +366,7 @@ public class ControladorTiempo implements ActionListener {
 			// Cargar el archivo de propiedades
 			// entrada = new FileInputStream("config.properties");
 
-			
-			Set<String> ciudades =new HashSet<>(Arrays.asList(provincias));
+			Set<String> ciudades = new HashSet<>(Arrays.asList(provincias));
 
 			Gson gson = new Gson();
 
@@ -430,13 +448,20 @@ public class ControladorTiempo implements ActionListener {
 									.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("minTemp")
 									.getAsString();
 						}
-						
-						if(provincia.equalsIgnoreCase("galicia")) {
-						cambiarImagenGalicia(clima, ciudad);	
+
+						if (provincia.equalsIgnoreCase("galicia")) {
+							cambiarImagenGalicia(clima, ciudad);
+						} else if (provincia.equalsIgnoreCase("navarra")) {
+							cambiarImagenNavarra(clima, ciudad);
+						} else if (provincia.equalsIgnoreCase("murcia")) {
+							cambiarImagenMurcia(clima, ciudad);
+						}else if(provincia.equalsIgnoreCase("paisvasco")) {
+							cambiarImagenPaisVasco(clima,ciudad);
+						}else if(provincia.equalsIgnoreCase("extremadura")) {
+							cambiarImagenCatalunia(clima,ciudad);
 						}else if(provincia.equalsIgnoreCase("catalunia")) {
 							
 						}
-						
 
 						// vista.textRetroalimentacion.setText(
 						// "fecha:" + fecha + " clima:" + clima + " maxTemp:" + maxTemp + " minTemp:" +
@@ -474,6 +499,81 @@ public class ControladorTiempo implements ActionListener {
 			}
 		}
 	}
+
+	private void cambiarImagenCatalunia(String clima, String ciudad) {
+		ImageIcon imagen = elegirClima(clima);
+		switch (ciudad) {
+	    case "Lerida":
+	        vista.lbl_Lleida.setIcon(imagen);
+	        break;
+	    case "Tarragona":
+	    	vista.lblBadajoz.setIcon(imagen);
+	    	break;
+	    case "Barcelona":
+	    	vista.lblBarcelona.setIcon(imagen);
+	    	break;
+	    case "Gerona":
+	    	vista.lbl_Girona.setIcon(imagen);
+	    	break;
+	    	
+	    	default:
+	    		System.out.println("No se ha metido en "+ciudad);
+	    		break;
+		}
+		
+	}
+
+	private void cambiarImagenPaisVasco(String clima, String ciudad) {
+	
+		ImageIcon imagen = elegirClima(clima);
+
+		switch (ciudad) {
+	    case "Alava":
+	        vista.lbl_Alava.setIcon(imagen);
+	        break;
+	    case "Vizcaya":
+	       // vista.lbl.setIcon(imagen);
+	        break;
+	    case "Guipuzcoa":
+	       // vista.lblg.setIcon(imagen);
+	        break;
+	    default:
+    		System.out.println("No se ha metido en "+ciudad);
+    		break;
+		}
+	}
+
+
+	private void cambiarImagenMurcia(String clima, String ciudad) {
+		ImageIcon imagen = elegirClima(clima);
+
+		switch (ciudad) {
+		case "Murcia":
+			vista.lblMurcia.setIcon(imagen);
+			break;
+
+		default:
+    		System.out.println("No se ha metido en "+ciudad);
+    		break;
+		}
+
+	}
+
+	private void cambiarImagenNavarra(String clima, String ciudad) {
+		ImageIcon imagen = elegirClima(clima);
+
+		switch (ciudad) {
+		case "Pamplona":
+			vista.lblPamplona.setIcon(imagen);
+			break;
+
+		default:
+    		System.out.println("No se ha metido en "+ciudad);
+    		break;
+		}
+
+	}
+
 	// cambiar label segun el tiempo
 	private void cambiarImagenEspania(String clima, String ciudad) {
 		ImageIcon imagen = elegirClima(clima);
@@ -485,7 +585,7 @@ public class ControladorTiempo implements ActionListener {
 			vista.lbl_Ourense.setIcon(imagen);
 			break;
 		case "ACorunia":
-			//vista.lbl_A_Corunia.setIcon(imagen);
+			// vista.lbl_A_Corunia.setIcon(imagen);
 			break;
 		case "Pontevedra":
 			vista.lbl_Pontevedra.setIcon(imagen);
@@ -626,7 +726,7 @@ public class ControladorTiempo implements ActionListener {
 			vista.lbl_Melilla.setIcon(imagen);
 			break;
 		default:
-			System.out.println("No ha entrado en el switch de "+ciudad);
+			System.out.println("No ha entrado en el switch de " + ciudad);
 			break;
 		}
 		vista.revalidate();
@@ -656,8 +756,45 @@ public class ControladorTiempo implements ActionListener {
 			break;
 
 		default:
+			System.out.println("No ha entrado en " + ciudad);
 			break;
 		}
 	}
+	
+	public void cambiarImagenAndalucia(String clima, String ciudad) {
+		ImageIcon imagen = elegirClima(clima);
+		
+		switch (ciudad) {
+		case "Huelva":
+			vista.lblHuelva.setIcon(imagen);
+			break;
+		case "Almeria":
+			vista.lblAlmeria.setIcon(imagen);
+			break;
+		case "Sevilla":
+			vista.lblSevilla.setIcon(imagen);
+			break;
+		case "Cadiz":
+			vista.lblCadiz.setIcon(imagen);
+			break;
+		case "Malaga":
+			vista.lblMalaga.setIcon(imagen);
+			break;
+		case "Granada":
+			vista.lblGranada.setIcon(imagen);
+			break;
+		case "Jaen":
+			vista.lblJaen.setIcon(imagen);
+			break;
+		case "Cordoba":
+			vista.lblCordoba.setIcon(imagen);
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+	
 
 }
