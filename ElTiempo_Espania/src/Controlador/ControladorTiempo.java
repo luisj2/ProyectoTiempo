@@ -52,7 +52,10 @@ public class ControladorTiempo implements ActionListener {
 	 String [] valencia = {"Valencia","Castellon_de_la_plana","Alicante"};
 	 String[] ceuta = {"Ceuta"};
 	 String [] melilla = {"Melilla"};
+	 
+	 String fecha="",fechaManiana="",fecha2Dias="",fecha3Dias="",fecha4Dias="";
 
+	 
 	VistaTiempo vista;
 	//constructor
 	public ControladorTiempo(VistaTiempo frame) {
@@ -60,13 +63,18 @@ public class ControladorTiempo implements ActionListener {
 		vista.btnClimaEspania.addActionListener(this);
 		vista.btnMostrarClima.addActionListener(this);
 		vista.btnVolver.addActionListener(this);
+		 completaFechas();
 	}
+	
+	
+		
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		//Boton de ver clima
 	    if (e.getSource() == vista.btnClimaEspania) {
-	    
+	   
 	    	//El String es lo que ha puesto el usuario en el desplegable y si el panel del mapa es visible se ejecuta el de españa
 	        String prov = vista.comboProvincias.getSelectedItem().toString();
 	        if (vista.panelMapa.isVisible()) {
@@ -333,6 +341,94 @@ public class ControladorTiempo implements ActionListener {
 		return imagen;
 
 	}
+	public void completaFechas() {
+		Properties configuracion = null;
+		InputStream entrada = null;
+		String link = "";
+
+		try {
+			configuracion = new Properties();
+			configuracion.load(new FileReader("config.properties"));
+			// Cargar el archivo de propiedades
+			// entrada = new FileInputStream("config.properties");
+
+			
+
+			Gson gson = new Gson();
+
+				link = configuracion.getProperty("Madrid");
+
+				if (link != null) {
+					//creamos la URL y creamos conexion a partir del link que hemos sacado del valor de la ciudad que esta en el properties
+					URL url = new URL(link);
+
+					// Abrir conexión HTTP
+					HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+					// Configurar la solicitud como GET
+					conexion.setRequestMethod("GET");
+
+					// Obtener la respuesta
+					int codigoRespuesta = conexion.getResponseCode();
+
+					//hago que se repita hasta que saque una respuesta 
+					while (conexion.getResponseCode() / 100 == 3) {
+					    // Obtenemos la nueva URL a la que se está redirigiendo
+					    String nuevaUrl = conexion.getHeaderField("Location");
+					    	
+					    // Abrimos una nueva conexión a la URL redirigida
+					    conexion = (HttpURLConnection) new URL(nuevaUrl).openConnection();
+
+					  
+					}
+					// Cuando establecemos la conexion con un bufferedReader guardamos la informacion en un String
+					
+						BufferedReader lector = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
+						String linea;
+						String respuesta = "";
+
+						while ((linea = lector.readLine()) != null) {
+							respuesta += linea;
+						}
+						
+						
+
+						//cerramos el recurso despues de usarlo
+						lector.close();
+						
+						//A partir de la informacion json que sacamos de la pagina la guardamos en un jsonObject para despues acceder a la informacion
+						JsonObject jsonObject = new Gson().fromJson(respuesta, JsonObject.class);
+						// obtener los datos necesarios
+						String fecha = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fechaManiana = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha2Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha3Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha4Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(4).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String [] fechas = {fecha,fechaManiana,fecha2Dias,fecha3Dias,fecha4Dias};
+						for (int i = 0; i < fechas.length; i++) {
+							vista.comboDias.addItem(fechas[i]);
+						}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			
+		}
+			
+		}
+			
+			
+				
+				
+	
 
 	//metodo para hacer toda la funcionalidad para que se modifiquen los labels del clima segun la informacion del JsonObject
 	public void accederValorPorperties() {
@@ -396,31 +492,51 @@ public class ControladorTiempo implements ActionListener {
 						//A partir de la informacion json que sacamos de la pagina la guardamos en un jsonObject para despues acceder a la informacion
 						JsonObject jsonObject = new Gson().fromJson(respuesta, JsonObject.class);
 						// obtener los datos necesarios
+						String fecha = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fechaManiana = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha2Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha3Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha4Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(4).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						
 						String clima = "";
 						String maxTemp = "";
 						String minTemp = "";
 						//sacamos la informacion segun el dia que elija el usuario simplemente cambiamos 
 						//la posicion del jsonArray del que estamos cojiendo la informacion
-						if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("Hoy")) {
+						if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("weather")
 									.getAsString();
 						
-						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("Maniana")) {
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fechaManiana)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("weather")
 									.getAsString();
 						
-						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("En 2 dias")) {
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha2Dias)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("weather")
 									.getAsString();
 						
-						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("En 3 dias")) {
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha3Dias)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("weather")
 									.getAsString();
 						
+						}else if(vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha4Dias)) {
+							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(4).getAsJsonObject().get("weather")
+									.getAsString();
 						}
 						
 						cambiarImagenEspania(clima, ciudad);
@@ -682,13 +798,25 @@ public class ControladorTiempo implements ActionListener {
 						String fecha = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 								.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("forecastDate")
 								.getAsString();
+						String fechaManiana = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha2Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha3Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("forecastDate")
+								.getAsString();
+						String fecha4Dias = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+								.getAsJsonArray("forecastDay").get(4).getAsJsonObject().get("forecastDate")
+								.getAsString();
 						String clima = "";
 						String maxTemp = "";
 						String minTemp = "";
 						// comprobamos de que fecha quiere los datos el usuario y cogemos el elemento
 						// del JsonArray segun esto
 						// el 0 para hoy,el 1 para mañana...
-						if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("Hoy")) {
+						if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("weather")
 									.getAsString();
@@ -698,7 +826,7 @@ public class ControladorTiempo implements ActionListener {
 							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(0).getAsJsonObject().get("minTemp")
 									.getAsString();
-						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("Maniana")) {
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fechaManiana)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("weather")
 									.getAsString();
@@ -708,7 +836,7 @@ public class ControladorTiempo implements ActionListener {
 							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(1).getAsJsonObject().get("minTemp")
 									.getAsString();
-						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("En 2 dias")) {
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha2Dias)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("weather")
 									.getAsString();
@@ -718,7 +846,7 @@ public class ControladorTiempo implements ActionListener {
 							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(2).getAsJsonObject().get("minTemp")
 									.getAsString();
-						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase("En 3 dias")) {
+						} else if (vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha3Dias)) {
 							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("weather")
 									.getAsString();
@@ -727,6 +855,16 @@ public class ControladorTiempo implements ActionListener {
 									.getAsString();
 							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
 									.getAsJsonArray("forecastDay").get(3).getAsJsonObject().get("minTemp")
+									.getAsString();
+						}else if(vista.comboDias.getSelectedItem().toString().equalsIgnoreCase(fecha4Dias)) {
+							clima = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(4).getAsJsonObject().get("weather")
+									.getAsString();
+							maxTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(4).getAsJsonObject().get("maxTemp")
+									.getAsString();
+							minTemp = jsonObject.getAsJsonObject("city").getAsJsonObject("forecast")
+									.getAsJsonArray("forecastDay").get(4).getAsJsonObject().get("minTemp")
 									.getAsString();
 						}
 

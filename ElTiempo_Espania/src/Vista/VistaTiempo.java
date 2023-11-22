@@ -34,7 +34,7 @@ public class VistaTiempo extends JFrame {
 	public JButton btnClimaEspania;
 	public JComboBox comboDias;
 	public JLabel lblRetroalimentacion;
-	public String[] dias = { "Hoy", "Maniana", "En 2 dias", "En 3 dias" };
+	//public String[] dias = { "Hoy", "Maniana", "En 2 dias", "En 3 dias" };
 	public String[] comunidadesAutonomas = { "Andalucia", "Aragon", "Asturias", "Islas Baleares", "Canarias",
 			"Cantabria", "Castilla y Leon", "Castilla-La Mancha", "Catalunia", "Extremadura", "Galicia", "Madrid",
 			"Murcia", "Navarra", "Pais-Vasco", "La Rioja", "Comunidad Valenciana", "Ceuta", "Melilla" };
@@ -1473,11 +1473,9 @@ public class VistaTiempo extends JFrame {
 			comboProvincias.addItem(comunidadesAutonomas[i]);
 		}
 		comboDias = new JComboBox();
-		comboDias.setBounds(241, 27, 80, 21);
+		comboDias.setBounds(241, 27, 127, 21);
 		contentPane.add(comboDias);
-		for (int i = 0; i < dias.length; i++) {
-			comboDias.addItem(dias[i]);
-		}
+		
 
 		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(452, 27, 85, 21);
